@@ -7,6 +7,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useChat } from "ai/react";
+import _ from "lodash";
 
 import { formSchema } from "./constants";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
@@ -61,7 +62,7 @@ const ConversationClient: React.FC<ConversationClientProps> = ({
     const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const content = e.target[0].value;
+            const content = _.get(e, 'target[0].value', '');
             const userMessage = {
                 role: 'user',
                 content: content,
@@ -129,9 +130,10 @@ const ConversationClient: React.FC<ConversationClientProps> = ({
                                 px-4
                                 md:px-6
                                 focus:within:shadow-sm
-                                grid
-                                grid-cols-12
-                                gap-2
+                                flex
+                                justify-between
+                                flex-col
+                                sm:flex-row
                             "
                             >
                                 <FormField

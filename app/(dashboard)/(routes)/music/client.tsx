@@ -43,7 +43,7 @@ const MusicClient: React.FC<MusicClientProps> = ({
                 userId
             });
 
-            setMusic(data);
+            setMusic(data.audio);
         } catch (error: any) {
 
         } finally {
@@ -55,8 +55,8 @@ const MusicClient: React.FC<MusicClientProps> = ({
     return (
         <div>
             <Heading
-                title="Video Generation"
-                description="Turn your prompt into music."
+                title="Gerador de Música"
+                description="Transforme seu prompt em uma música."
                 icon={Music}
                 iconColor="text-emerald-500"
                 bgColor="bg-emerald-500/10"
@@ -86,7 +86,7 @@ const MusicClient: React.FC<MusicClientProps> = ({
                                         <Input
                                             className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                                             disabled={isLoading}
-                                            placeholder="Piano solo"
+                                            placeholder="Solo de Piano"
                                             {...field}
                                         />
                                     </FormControl>
@@ -94,7 +94,7 @@ const MusicClient: React.FC<MusicClientProps> = ({
                             )}
                         />
                         <Button className="col-span-12 lg:col-span-2 w-full" type="submit" disabled={isLoading} size="icon">
-                            Generate
+                            Gerar
                         </Button>
                     </form>
                 </FormProvider>
@@ -104,7 +104,7 @@ const MusicClient: React.FC<MusicClientProps> = ({
                     </div>
                 )}
                 {!music && !isLoading && (
-                    <Empty label="No images generated." />
+                    <Empty label="Nenhuma música gerada." />
                 )}
                 {music && (
                     <audio controls className="w-full mt-8">

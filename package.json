@@ -27,6 +27,7 @@
     "cors": "^2.8.5",
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.277.0",
     "next": "13.4.19",
     "openai": "^4.7.1",
@@ -42,6 +43,7 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.14"
+    "@types/cors": "^2.8.14",
+    "@types/lodash": "^4.14.198"
   }
 }

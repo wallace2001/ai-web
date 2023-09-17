@@ -6,7 +6,7 @@ import { Code, MessageSquare } from "lucide-react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useChat } from "ai/react";
+import { Message, useChat } from "ai/react";
 import ReactMarkdown from "react-markdown";
 
 import { formSchema } from "./constants";
@@ -19,12 +19,7 @@ import Loader from "@/components/loader";
 import { cn } from "@/lib/utils";
 import UserAvatar from "@/components/user-avatar";
 import BotAvatar from "@/components/bot-avatar";
-
-interface IMessage {
-    role: "user" | "assistant" | "system";
-    content: string;
-}
-
+import _ from "lodash";
 
 interface CodeClientProps {
     userId: string | null;
@@ -46,7 +41,7 @@ const CodeClient: React.FC<CodeClientProps> = ({
 
     const isLoading = form.formState.isSubmitting;
 
-    const newMessages: IMessage[] = [];
+    const newMessages: Message[] = [];
 
     const { messages, input, handleInputChange, handleSubmit } = useChat({
         api: 'http://127.0.0.1:3333/ai/code',
@@ -62,11 +57,11 @@ const CodeClient: React.FC<CodeClientProps> = ({
     const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const content = e.target[0].value;
+            const content = _.get(e, 'target[0].value', '');
             const userMessage = {
                 role: 'user',
                 content: content,
-            };
+            } as Message;
             newMessages.push(...messages);
             newMessages.push(userMessage);
 
@@ -154,9 +149,10 @@ const CodeClient: React.FC<CodeClientProps> = ({
                                 px-4
                                 md:px-6
                                 focus:within:shadow-sm
-                                grid
-                                grid-cols-12
-                                gap-2
+                                flex
+                                justify-between
+                                flex-col
+                                sm:flex-row
                             "
                             >
                                 <FormField
