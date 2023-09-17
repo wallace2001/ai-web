@@ -13,7 +13,7 @@ import { formSchema } from "./constants";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FormEvent, useRef } from "react";
+import { FormEvent, useEffect, useRef } from "react";
 import Empty from "@/components/empty";
 import Loader from "@/components/loader";
 import { cn } from "@/lib/utils";
@@ -30,6 +30,7 @@ const CodeClient: React.FC<CodeClientProps> = ({
 }) => {
 
     const router = useRouter();
+    const containerRef = useRef<HTMLDivElement>(null);
     const ref = useRef<HTMLFormElement>(null);
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -74,6 +75,13 @@ const CodeClient: React.FC<CodeClientProps> = ({
         }
     }
 
+    useEffect(() => {
+      const container = containerRef.current;
+      if (container?.scrollHeight) {
+        container.scrollTop = container?.scrollHeight;
+      }
+    }, [messages]);
+
     return (
         <div>
             <Heading
@@ -93,7 +101,7 @@ const CodeClient: React.FC<CodeClientProps> = ({
                     {messages.length === 0 && !isLoading ? (
                         <Empty label="Nenhuma coversa iniciada" />
                     ) : (
-                        <div className="overflow-auto flex flex-col gap-y-4 h-[36rem]">
+                        <div ref={containerRef} className="overflow-auto scroll-smooth flex flex-col gap-y-4 h-[36rem]">
                             {messages.map(message => (
                                 <div
                                     key={message.content}
@@ -158,7 +166,7 @@ const CodeClient: React.FC<CodeClientProps> = ({
                                 <FormField
                                     name="prompt"
                                     render={({ field }) => (
-                                        <FormItem className="col-span-12 lg:col-span-10">
+                                        <FormItem className="flex-1 mr-4 col-span-12 lg:col-span-10">
                                             <FormControl className="m-0 p-0">
                                                 <Input
                                                     {...field}
