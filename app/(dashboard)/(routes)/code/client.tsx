@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 import UserAvatar from "@/components/user-avatar";
 import BotAvatar from "@/components/bot-avatar";
 import _ from "lodash";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 interface CodeClientProps {
     userId: string | null;
@@ -28,7 +29,7 @@ interface CodeClientProps {
 const CodeClient: React.FC<CodeClientProps> = ({
     userId
 }) => {
-
+    const proModal = useProModal();
     const router = useRouter();
     const containerRef = useRef<HTMLDivElement>(null);
     const ref = useRef<HTMLFormElement>(null);
@@ -44,7 +45,7 @@ const CodeClient: React.FC<CodeClientProps> = ({
 
     const newMessages: Message[] = [];
 
-    const { messages, input, handleInputChange, handleSubmit } = useChat({
+    const { messages, input, error, handleInputChange, handleSubmit } = useChat({
         api: 'http://127.0.0.1:3333/ai/code',
         body: {
             userId,
@@ -76,11 +77,20 @@ const CodeClient: React.FC<CodeClientProps> = ({
     }
 
     useEffect(() => {
-      const container = containerRef.current;
-      if (container?.scrollHeight) {
-        container.scrollTop = container?.scrollHeight;
-      }
+        const container = containerRef.current;
+        if (container?.scrollHeight) {
+            container.scrollTop = container?.scrollHeight;
+        }
     }, [messages]);
+
+    useEffect(() => {
+        if (error) {
+            const dataError = JSON.parse(error?.message || '');
+            if (dataError?.status === 403) {
+                proModal.onOpen();
+            }
+        }
+    }, [error]);
 
     return (
         <div>
@@ -122,13 +132,13 @@ const CodeClient: React.FC<CodeClientProps> = ({
                                             <BotAvatar />
                                             <ReactMarkdown
                                                 components={{
-                                                    pre: ({node, ...props}) => (
+                                                    pre: ({ node, ...props }) => (
                                                         <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg">
                                                             <pre {...props} />
                                                         </div>
                                                     ),
                                                     code: ({ node, ...props }) => (
-                                                        <code className="bg-black/10 rounded-lg p-1" {...props}  />
+                                                        <code className="bg-black/10 rounded-lg p-1" {...props} />
                                                     )
                                                 }}
                                                 className="text-sm overflow-hidden leadding-7"

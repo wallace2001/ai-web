@@ -15,6 +15,7 @@ import { useState } from "react";
 import Empty from "@/components/empty";
 import Loader from "@/components/loader";
 import { api } from "@/lib/axios";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 interface VideoClientProps {
     userId: string | null;
@@ -23,7 +24,7 @@ interface VideoClientProps {
 const VideoClient: React.FC<VideoClientProps> = ({
     userId
 }) => {
-
+    const proModal = useProModal();
     const router = useRouter();
     const [video, setVideo] = useState<string>();
 
@@ -45,7 +46,9 @@ const VideoClient: React.FC<VideoClientProps> = ({
 
             setVideo(data[0]);
         } catch (error: any) {
-
+            if(error?.response?.status === 403) {
+                proModal.onOpen();
+            }
         } finally {
             form.reset();
             router.refresh();

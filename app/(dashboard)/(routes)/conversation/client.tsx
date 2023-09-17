@@ -19,6 +19,7 @@ import Loader from "@/components/loader";
 import { cn } from "@/lib/utils";
 import UserAvatar from "@/components/user-avatar";
 import BotAvatar from "@/components/bot-avatar";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 interface IMessage {
     role: string;
@@ -34,6 +35,7 @@ const ConversationClient: React.FC<ConversationClientProps> = ({
     userId
 }) => {
 
+    const proModal = useProModal();
     const router = useRouter();
     const containerRef = useRef<HTMLDivElement>(null);
     const ref = useRef<HTMLFormElement>(null);
@@ -49,7 +51,7 @@ const ConversationClient: React.FC<ConversationClientProps> = ({
 
     const newMessages: IMessage[] = [];
 
-    const { messages, input, handleInputChange, handleSubmit } = useChat({
+    const { messages, input, handleInputChange, handleSubmit, error } = useChat({
         api: 'http://127.0.0.1:3333/ai/chat',
         body: {
             userId,
@@ -73,7 +75,7 @@ const ConversationClient: React.FC<ConversationClientProps> = ({
 
             handleSubmit(e);
         } catch (error: any) {
-
+            console.log(error);
         } finally {
             form.reset();
             router.refresh();
@@ -83,9 +85,18 @@ const ConversationClient: React.FC<ConversationClientProps> = ({
     useEffect(() => {
         const container = containerRef.current;
         if (container?.scrollHeight) {
-          container.scrollTop = container?.scrollHeight;
+            container.scrollTop = container?.scrollHeight;
         }
-      }, [messages]);
+    }, [messages]);
+
+    useEffect(() => {
+        if (error) {
+            const dataError = JSON.parse(error?.message || '');
+            if (dataError?.status === 403) {
+                proModal.onOpen();
+            }
+        }
+    }, [error]);
 
     return (
         <div>

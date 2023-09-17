@@ -18,6 +18,7 @@ import { api } from "@/lib/axios";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 interface ImageClientProps {
     userId: string | null;
@@ -26,7 +27,7 @@ interface ImageClientProps {
 const ImageClient: React.FC<ImageClientProps> = ({
     userId
 }) => {
-
+    const proModal = useProModal();
     const router = useRouter();
     const [images, setImages] = useState<string[]>([]);
 
@@ -51,7 +52,9 @@ const ImageClient: React.FC<ImageClientProps> = ({
             const urls = response.data.map((image: {url: string}) => image.url);
             setImages(urls);
         } catch (error: any) {
-
+            if(error?.response?.status === 403) {
+                proModal.onOpen();
+            }
         } finally {
             form.reset();
             router.refresh();

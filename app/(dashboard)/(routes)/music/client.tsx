@@ -15,6 +15,7 @@ import { useState } from "react";
 import Empty from "@/components/empty";
 import Loader from "@/components/loader";
 import { api } from "@/lib/axios";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 interface MusicClientProps {
     userId: string | null;
@@ -23,7 +24,7 @@ interface MusicClientProps {
 const MusicClient: React.FC<MusicClientProps> = ({
     userId
 }) => {
-
+    const proModal = useProModal();
     const router = useRouter();
     const [music, setMusic] = useState<string>();
 
@@ -45,7 +46,9 @@ const MusicClient: React.FC<MusicClientProps> = ({
 
             setMusic(data.audio);
         } catch (error: any) {
-
+            if(error?.response?.status === 403) {
+                proModal.onOpen();
+            }
         } finally {
             form.reset();
             router.refresh();

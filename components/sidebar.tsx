@@ -5,7 +5,15 @@ import { Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, Video
 import { Montserrat } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import useSWR, { preload } from 'swr';
 import { usePathname } from "next/navigation";
+import FreeCounter from "./free-counter";
+import { fetcher } from "@/lib/fetchet";
+
+interface SidebarProps {
+    userId: string | null;
+    apiLimitCount: number;
+}
 
 const montserrat = Montserrat({ weight: "600", subsets: ["latin"] });
 
@@ -54,9 +62,13 @@ const routes = [
     },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({
+    userId,
+    apiLimitCount
+}: SidebarProps) => {
 
     const pathname = usePathname();
+    const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_DEV_BASE_URL}/ai/limit/${userId}`, fetcher);
 
     return ( 
         <div className="space-y-4 py-4 flex flex-col h-full bg-[#111827] text-white">
@@ -91,6 +103,9 @@ const Sidebar = () => {
                     ))}
                 </div>
             </div>
+            <FreeCounter
+                apiLimitCount={data?.count | apiLimitCount}
+            />
         </div>
     );
 }
