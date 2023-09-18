@@ -106,14 +106,14 @@ const ConversationClient: React.FC<ConversationClientProps> = ({
     return (
         <div>
             <Heading
-                title="Conversation"
+                title="Chat AI"
                 description="Nosso modelo de conversação mais avançado."
                 icon={MessageSquare}
                 iconColor="text-violet-500"
                 bgColor="bg-violet-500/10"
             />
             <div className="flex flex-col justify-between">
-                <div className="h-[36rem] space-y-4 mt-4 mb-8">
+                <div className="h-[40rem] space-y-4 mt-4 mb-8">
                     {isLoading && (
                         <div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
                             <Loader />
@@ -122,7 +122,7 @@ const ConversationClient: React.FC<ConversationClientProps> = ({
                     {messages.length === 0 && !isLoading ? (
                         <Empty label="Nenhuma conversa iniciada" />
                     ) : (
-                        <div ref={containerRef} className="overflow-auto flex flex-col gap-y-4 h-[36rem]">
+                        <div ref={containerRef} className="overflow-auto flex flex-col gap-y-4 h-[39rem]">
                             {messages.map(message => (
                                 <div
                                     key={message.content}

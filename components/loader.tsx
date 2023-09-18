@@ -7,11 +7,11 @@ const Loader = () => {
                 <Image
                     alt="logo"
                     fill
-                    src="/logo.png"
+                    src="https://img.freepik.com/free-icon/robot_318-808683.jpg?w=2000"
                 />
             </div> 
             <p className="text-sm text-muted-foreground">
-                Genius is thinking...
+                AI is thinking...
             </p>
         </div>
     );

@@ -2,7 +2,8 @@
 const nextConfig = {
     images: {
         domains: [
-            "oaidalleapiprodscus.blob.core.windows.net"
+            "oaidalleapiprodscus.blob.core.windows.net",
+            "img.freepik.com"
         ]
     },
     async headers() {

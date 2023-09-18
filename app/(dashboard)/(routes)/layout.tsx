@@ -20,7 +20,7 @@ const DashboardLayout = async ({
 
     return (
         <>
-            <ModalProvider userId={user.id} email={user.emailAddresses[0].emailAddress} />
+            <ModalProvider email={user.emailAddresses[0].emailAddress} />
             <div className="h-full relative">
                 <div
                     className="
@@ -34,7 +34,7 @@ const DashboardLayout = async ({
                     bg-gray-900
                 "
                 >
-                    <Sidebar userId={userId} isPro={permission} apiLimitCount={count} />
+                    <Sidebar isPro={permission} apiLimitCount={count} />
                 </div>
                 <main className="md:pl-72">
                     <Navbar />

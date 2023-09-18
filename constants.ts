@@ -4,14 +4,14 @@ export const MAX_FREE_COUNTS = 5;
 
 export const tools = [
     {
-      label: 'Conversation',
+      label: 'Chat AI',
       icon: MessageSquare,
       href: '/conversation',
       color: "text-violet-500",
       bgColor: "bg-violet-500/10",
     },
     {
-      label: 'Image Generation',
+      label: 'Gerador de Imagem',
       icon: ImageIcon,
       color: "text-pink-700",
       bgColor: "bg-pink-700/10",

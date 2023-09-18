@@ -5,9 +5,8 @@ import ProModal from "./pro-modal";
 import { User } from "@clerk/nextjs/server";
 
 const ModalProvider = ({
-    userId,
     email
-}: {userId: string, email: string}) => {
+}: {email: string}) => {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -19,7 +18,7 @@ const ModalProvider = ({
     }
     return ( 
         <>
-            <ProModal userId={userId} email={email} />
+            <ProModal email={email} />
         </>
      );
 }

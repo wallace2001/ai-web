@@ -9,9 +9,9 @@ import useSWR, { preload } from 'swr';
 import { usePathname } from "next/navigation";
 import FreeCounter from "./free-counter";
 import { fetcher } from "@/lib/fetchet";
+import { useAuth } from "@clerk/nextjs";
 
 interface SidebarProps {
-    userId: string | null;
     isPro: boolean;
     apiLimitCount: number;
 }
@@ -26,13 +26,13 @@ const routes = [
         color: 'text-sky-500'
     },
     {
-        label: 'Conversation',
+        label: 'Chat AI',
         icon: MessageSquare,
         href: '/conversation',
         color: 'text-violet-500'
     },
     {
-        label: 'Image Generation',
+        label: 'Gerador de Imagem',
         icon: ImageIcon,
         href: '/image',
         color: 'text-pink-500'
@@ -58,10 +58,10 @@ const routes = [
 ];
 
 const Sidebar = ({
-    userId,
     apiLimitCount,
     isPro
 }: SidebarProps) => {
+    const { userId } = useAuth();
 
     const pathname = usePathname();
     const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_DEV_BASE_URL}/ai/limit/${userId}`, fetcher);
@@ -74,11 +74,11 @@ const Sidebar = ({
                         <Image 
                             fill
                             alt="Logo"
-                            src="/logo.png"
+                            src="https://img.freepik.com/free-icon/robot_318-808683.jpg?w=2000"
                         />
                     </div>
                     <h1 className={cn("text-2xl font-bold", montserrat.className)}>
-                        Genius
+                        AI
                     </h1>
                 </Link>
                 <div className="space-y-1">
