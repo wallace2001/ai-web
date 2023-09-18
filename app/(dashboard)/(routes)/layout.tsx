@@ -1,6 +1,7 @@
+import ModalProvider from "@/components/modal-provider";
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
-import { auth } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs";
 
 const DashboardLayout = async ({
     children
@@ -8,14 +9,21 @@ const DashboardLayout = async ({
     children: React.ReactNode
 }) => {
     const { userId } = auth();
+    const user = await currentUser();
 
     const response = await fetch(`${process.env.PRODUCTION_BASE_URL || process.env.DEV_BASE_URL}/ai/limit/${userId}`);
-    const { count } = await response.json();
+    const { count, permission } = await response.json();
+
+    if (!user?.id && !user?.emailAddresses[0].emailAddress) {
+        return null
+    }
 
     return (
-        <div className="h-full relative">
-            <div
-                className="
+        <>
+            <ModalProvider userId={user.id} email={user.emailAddresses[0].emailAddress} />
+            <div className="h-full relative">
+                <div
+                    className="
                     hidden 
                     h-full 
                     md:flex 
@@ -25,14 +33,15 @@ const DashboardLayout = async ({
                     md:inset-y-0 
                     bg-gray-900
                 "
-            >
-                <Sidebar userId={userId} apiLimitCount={count} />
+                >
+                    <Sidebar userId={userId} isPro={permission} apiLimitCount={count} />
+                </div>
+                <main className="md:pl-72">
+                    <Navbar />
+                    {children}
+                </main>
             </div>
-            <main className="md:pl-72">
-                <Navbar />
-                {children}
-            </main>
-        </div>
+        </>
     );
 }
 

@@ -46,7 +46,7 @@ const CodeClient: React.FC<CodeClientProps> = ({
     const newMessages: Message[] = [];
 
     const { messages, input, error, handleInputChange, handleSubmit } = useChat({
-        api: 'http://127.0.0.1:3333/ai/code',
+        api: 'http://127.0.0.1:3333/ai/chat',
         body: {
             userId,
             messages: newMessages

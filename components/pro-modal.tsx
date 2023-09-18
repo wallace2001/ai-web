@@ -8,9 +8,26 @@ import { Card } from "./ui/card";
 import { cn } from "@/lib/utils";
 import { Check, Zap } from "lucide-react";
 import { Button } from "./ui/button";
+import { api } from "@/lib/axios";
+import { User } from "@clerk/nextjs/server";
 
-const ProModal = () => {
+const ProModal = ({
+    userId,
+    email
+}: { userId: string, email: string }) => {
     const proModal = useProModal();
+
+    const onSubscribe = async () => {
+        try {
+            const response = await api.get(`/stripe?userId=${userId}&email=${email}`, {
+                headers: {
+                    Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRIPE_API}`
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <Dialog open={proModal.isOpen} onOpenChange={proModal.onClose}>
@@ -48,7 +65,7 @@ const ProModal = () => {
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                    <Button className="w-full" variant="premium">
+                    <Button onClick={onSubscribe} className="w-full" variant="premium">
                         Upgrade
                         <Zap className="w-4 h-4 ml-2 fill-white"/>
                     </Button>

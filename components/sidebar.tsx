@@ -12,6 +12,7 @@ import { fetcher } from "@/lib/fetchet";
 
 interface SidebarProps {
     userId: string | null;
+    isPro: boolean;
     apiLimitCount: number;
 }
 
@@ -36,24 +37,18 @@ const routes = [
         href: '/image',
         color: 'text-pink-500'
     },
-    {
-        label: 'Video Generation',
-        icon: VideoIcon,
-        href: '/video',
-        color: 'text-orange-500'
-    },
-    {
-        label: 'Music Generation',
-        icon: Music,
-        href: '/music',
-        color: 'text-emerald-500'
-    },
-    {
-        label: 'Code Generation',
-        icon: Code,
-        href: '/code',
-        color: 'text-green-700'
-    },
+    // {
+    //     label: 'Video Generation',
+    //     icon: VideoIcon,
+    //     href: '/video',
+    //     color: 'text-orange-500'
+    // },
+    // {
+    //     label: 'Music Generation',
+    //     icon: Music,
+    //     href: '/music',
+    //     color: 'text-emerald-500'
+    // },
     {
         label: 'Settings',
         icon: Settings,
@@ -64,7 +59,8 @@ const routes = [
 
 const Sidebar = ({
     userId,
-    apiLimitCount
+    apiLimitCount,
+    isPro
 }: SidebarProps) => {
 
     const pathname = usePathname();
@@ -104,6 +100,7 @@ const Sidebar = ({
                 </div>
             </div>
             <FreeCounter
+                isPro={isPro}
                 apiLimitCount={data?.count | apiLimitCount}
             />
         </div>

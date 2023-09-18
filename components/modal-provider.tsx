@@ -2,8 +2,12 @@
 
 import { useEffect, useState } from "react";
 import ProModal from "./pro-modal";
+import { User } from "@clerk/nextjs/server";
 
-const ModalProvider = () => {
+const ModalProvider = ({
+    userId,
+    email
+}: {userId: string, email: string}) => {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -15,7 +19,7 @@ const ModalProvider = () => {
     }
     return ( 
         <>
-            <ProModal />
+            <ProModal userId={userId} email={email} />
         </>
      );
 }

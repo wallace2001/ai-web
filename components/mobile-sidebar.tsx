@@ -8,11 +8,13 @@ import { useEffect, useState } from "react";
 
 interface SidebarProps {
     userId: string | null;
+    isPro: boolean;
     apiLimitCount: number;
 }
 
 const MobileSidebar = ({
     userId,
+    isPro,
     apiLimitCount
 }: SidebarProps) => {
 
@@ -34,7 +36,7 @@ const MobileSidebar = ({
                 </Button>
             </SheetTrigger>
             <SheetContent side='left' className="p-0">
-                <Sidebar userId={userId} apiLimitCount={apiLimitCount} />
+                <Sidebar isPro={isPro} userId={userId} apiLimitCount={apiLimitCount} />
             </SheetContent>
         </Sheet>
     );
