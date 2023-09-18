@@ -19,6 +19,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
 import { useProModal } from "@/hooks/use-pro-modal";
+import toast from "react-hot-toast";
 
 interface ImageClientProps {
     userId: string | null;
@@ -54,6 +55,8 @@ const ImageClient: React.FC<ImageClientProps> = ({
         } catch (error: any) {
             if(error?.response?.status === 403) {
                 proModal.onOpen();
+            } else {
+                toast.error('Something wen wrong.')
             }
         } finally {
             form.reset();

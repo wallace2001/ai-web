@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { Check, Zap } from "lucide-react";
 import { Button } from "./ui/button";
 import { api } from "@/lib/axios";
-import { User } from "@clerk/nextjs/server";
+import toast from "react-hot-toast";
 
 const ProModal = ({
     userId,
@@ -19,13 +19,11 @@ const ProModal = ({
 
     const onSubscribe = async () => {
         try {
-            const response = await api.get(`/stripe?userId=${userId}&email=${email}`, {
-                headers: {
-                    Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRIPE_API}`
-                }
-            });
+            const response = await api.get(`/stripe?userId=${userId}&email=${email}`);
+
+            window.location.href = response.data.url;
         } catch (error) {
-            console.log(error);
+            toast.error('Something wen wrong.');
         }
     }
 

@@ -21,6 +21,7 @@ import UserAvatar from "@/components/user-avatar";
 import BotAvatar from "@/components/bot-avatar";
 import { useProModal } from "@/hooks/use-pro-modal";
 import ReactMarkdown from "react-markdown";
+import toast from "react-hot-toast";
 
 interface IMessage {
     role: string;
@@ -79,8 +80,6 @@ const ConversationClient: React.FC<ConversationClientProps> = ({
 
             handleSubmit(e);
 
-        } catch (error: any) {
-            console.log(error);
         } finally {
             form.reset();
         }
@@ -98,6 +97,8 @@ const ConversationClient: React.FC<ConversationClientProps> = ({
             const dataError = JSON.parse(error?.message || '');
             if (dataError?.status === 403) {
                 proModal.onOpen();
+            } else {
+                toast.error('Something wen wrong.');
             }
         }
     }, [error]);

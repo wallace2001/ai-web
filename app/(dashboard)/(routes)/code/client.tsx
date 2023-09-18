@@ -21,6 +21,7 @@ import UserAvatar from "@/components/user-avatar";
 import BotAvatar from "@/components/bot-avatar";
 import _ from "lodash";
 import { useProModal } from "@/hooks/use-pro-modal";
+import toast from "react-hot-toast";
 
 interface CodeClientProps {
     userId: string | null;
@@ -88,6 +89,8 @@ const CodeClient: React.FC<CodeClientProps> = ({
             const dataError = JSON.parse(error?.message || '');
             if (dataError?.status === 403) {
                 proModal.onOpen();
+            } else {
+                toast.error('Something wen wrong.')
             }
         }
     }, [error]);
