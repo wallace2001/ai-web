@@ -4,18 +4,20 @@ import { Zap } from "lucide-react";
 import { Button } from "./ui/button";
 import { api } from "@/lib/axios";
 import { useState } from "react";
+import { useAuth } from "@clerk/nextjs";
 
 interface SubscriptionButtonProps {
     isPro: boolean;
-    userId: string;
     email: string;
 }
 
 const SubscriptionButton = ({
     isPro,
-    userId,
     email
 }: SubscriptionButtonProps) => {
+
+    const { userId } = useAuth();
+
     const [loading, setLoading] = useState(false);
 
     const onClick = async () => {

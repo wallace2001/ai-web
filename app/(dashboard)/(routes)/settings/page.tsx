@@ -13,7 +13,6 @@ const SettingsPage = async () => {
 
     return (
         <SettingsClient 
-            userId={user.id} 
             email={user?.emailAddresses[0].emailAddress} 
             subscribe={permission} 
         />

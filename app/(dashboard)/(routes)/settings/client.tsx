@@ -5,13 +5,11 @@ import SubscriptionButton from "@/components/subscription-button";
 import { Settings } from "lucide-react";
 
 interface ISettingsClient {
-    userId: string;
     email: string;
     subscribe: boolean;
 }
 
 const SettingsClient = ({
-    userId,
     email,
     subscribe
 }: ISettingsClient) => {
@@ -28,7 +26,7 @@ const SettingsClient = ({
                 <div className="text-muted-foreground text-sm">
                     {subscribe ? "Você está atualmente em um plano profissional.." : "Você está atualmente em um plano gratuito."}
                 </div>
-                <SubscriptionButton userId={userId} email={email} isPro={subscribe} />
+                <SubscriptionButton email={email} isPro={subscribe} />
             </div>
         </div>
     );
